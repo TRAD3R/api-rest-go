@@ -6,7 +6,7 @@ func main() {
 	r := gin.Default()
 	r.GET("/ping", pong)
 
-	r.Run()
+	r.Run(":9001")
 }
 
 func pong(c *gin.Context) {
