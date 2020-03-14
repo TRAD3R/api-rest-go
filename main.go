@@ -1,12 +1,15 @@
 package main
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"os"
+)
 
 func main() {
 	r := gin.Default()
 	r.GET("/ping", pong)
 
-	r.Run(":9001")
+	r.Run(":" + os.Getenv("port"))
 }
 
 func pong(c *gin.Context) {
