@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"os"
+	"strconv"
 )
 
 func main() {
@@ -13,7 +14,8 @@ func main() {
 }
 
 func getUsers(c *gin.Context) {
-	id := c.GetInt("id")
+	paramId := c.Query("id")
+	id, _ := strconv.Atoi(paramId)
 	user := struct {
 		Id 		int 	`json:"id"` // аннотация используется для указания как обозначать поля в json
 		Name 	string 	`json:"name"`
