@@ -9,7 +9,7 @@ func main() {
 	r := gin.Default()
 	r.GET("/ping", pong)
 
-	r.Run(":" + os.Getenv("port"))
+	r.Run(":" + os.Getenv("PORT"))
 }
 
 func pong(c *gin.Context) {
