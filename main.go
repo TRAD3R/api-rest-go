@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/trad3r/rest-api-go/cbrf"
 	"os"
 	"strconv"
 )
@@ -10,16 +11,25 @@ func main() {
 	r := gin.Default()
 	r.GET("/users", getUsers)
 	r.POST("/user", postUser)
+	r.GET("/exchange", getExchange)
 
 	r.Run(":" + os.Getenv("PORT"))
+}
+
+func getExchange(c *gin.Context) {
+	res, err := cbrf.GetQuotes("")
+	if err != nil {
+
+	}
+	c.JSON(200, res)
 }
 
 func getUsers(c *gin.Context) {
 	paramId := c.Query("id")
 	id, _ := strconv.Atoi(paramId)
 	user := struct {
-		Id 		int 	`json:"id"` // аннотация используется для указания как обозначать поля в json
-		Name 	string 	`json:"name"`
+		Id   int    `json:"id"` // аннотация используется для указания как обозначать поля в json
+		Name string `json:"name"`
 	}{id, "Сергей"}
 
 	c.JSON(200, user)
@@ -27,8 +37,8 @@ func getUsers(c *gin.Context) {
 
 func postUser(c *gin.Context) {
 	user := struct {
-		Id 		int 	`json:"id"` // аннотация используется для указания как обозначать поля в json
-		Name 	string 	`json:"name"`
+		Id   int    `json:"id"` // аннотация используется для указания как обозначать поля в json
+		Name string `json:"name"`
 	}{}
 	c.BindJSON(&user)
 
