@@ -1,6 +1,10 @@
 package model
 
-import "golang.org/x/crypto/bcrypt"
+import (
+	validation "github.com/go-ozzo/ozzo-validation/v4"
+	"github.com/go-ozzo/ozzo-validation/v4/is"
+	"golang.org/x/crypto/bcrypt"
+)
 
 // User - сущность пользователя
 type User struct {
@@ -23,6 +27,15 @@ func (u *User) BeforeCreate() error {
 		u.HashPassword = hash
 	}
 	return nil
+}
+
+// Validate - валидация данных пользователя
+func (u *User) Validate() error {
+	return validation.ValidateStruct(
+		u,
+		validation.Field(&u.Email, validation.Required, is.Email),
+		validation.Field(&u.Password, validation.By(requiredIf(u.HashPassword == "")), validation.Length(6, 100)),
+	)
 }
 
 // encryptStirng - создание хэш строки
