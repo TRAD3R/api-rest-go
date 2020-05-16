@@ -12,10 +12,7 @@ func TestUserRepository_Create(t *testing.T) {
 	s, teardown := store.TestStore(t, databaseUrl)
 	defer teardown("users")
 
-	u, err := s.User().Create(&model.User{
-		Email:        "test@email.com",
-		HashPassword: "123456",
-	})
+	u, err := s.User().Create(model.TestUser())
 
 	assert.NoError(t, err)
 	assert.NotNil(t, u)
@@ -32,10 +29,7 @@ func TestUserRepository_FindByEmail(t *testing.T) {
 	assert.Error(t, err)
 
 	// Поиск существующего email
-	u, err := s.User().Create(&model.User{
-		Email:        "test@email.com",
-		HashPassword: "123456",
-	})
+	u, err := s.User().Create(model.TestUser())
 
 	assert.NoError(t, err)
 	assert.NotNil(t, u)
