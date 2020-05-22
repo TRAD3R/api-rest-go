@@ -7,37 +7,15 @@ import (
 
 // Store ...
 type Store struct {
-	config         *Config
 	db             *sql.DB
 	userRepository *UserRepository
 }
 
 // New ...
-func New(config *Config) *Store {
+func New(db *sql.DB) *Store {
 	return &Store{
-		config: config,
+		db: db,
 	}
-}
-
-// Open ...
-func (s *Store) Open() error {
-	db, err := sql.Open("postgres", s.config.DatabaseUrl)
-	if err != nil {
-		return err
-	}
-
-	// Проверка, что подключение успешно
-	if err := db.Ping(); err != nil {
-		return err
-	}
-
-	s.db = db
-	return nil
-}
-
-// Close ...
-func (s *Store) Close() {
-	// ...
 }
 
 // User - обертка для возможности работать с таблицей users
