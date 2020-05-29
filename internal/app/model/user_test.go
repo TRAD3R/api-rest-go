@@ -25,7 +25,7 @@ func TestUser_Validate(t *testing.T) {
 			name: "with hashpassword",
 			u: func() *model.User {
 				u := model.TestUser()
-				u.HashPassword = "hashpassword"
+				u.PasswordHash = "hashpassword"
 				u.Password = ""
 
 				return u
@@ -85,5 +85,5 @@ func TestUser_Validate(t *testing.T) {
 func TestUser_BeforeCreate(t *testing.T) {
 	u := model.TestUser()
 	assert.NoError(t, u.BeforeCreate())
-	assert.NotEmpty(t, u.HashPassword)
+	assert.NotEmpty(t, u.PasswordHash)
 }

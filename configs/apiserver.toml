@@ -3,6 +3,4 @@ bind_addr = ":8080"
 # все сообщения уровнем ниже выводиться не будут.
 # Т.е. если установить error, то сообщения debug и info выводиться не будут
 log_level = "debug"
-
-[store]
 database_url = "host=localhost user=trad3r password=psql dbname=go_rest_api sslmode=disable"

@@ -10,8 +10,8 @@ import (
 type User struct {
 	ID           int
 	Email        string
+	PasswordHash string
 	Password     string
-	HashPassword string
 }
 
 // BeforeCreate - выполнение подготовительных работ перед
@@ -24,7 +24,7 @@ func (u *User) BeforeCreate() error {
 			return err
 		}
 
-		u.HashPassword = hash
+		u.PasswordHash = hash
 	}
 	return nil
 }
@@ -34,7 +34,7 @@ func (u *User) Validate() error {
 	return validation.ValidateStruct(
 		u,
 		validation.Field(&u.Email, validation.Required, is.Email),
-		validation.Field(&u.Password, validation.By(requiredIf(u.HashPassword == "")), validation.Length(6, 100)),
+		validation.Field(&u.Password, validation.By(requiredIf(u.PasswordHash == "")), validation.Length(6, 100)),
 	)
 }
 
