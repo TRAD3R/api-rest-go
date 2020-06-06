@@ -22,9 +22,9 @@ func (r *UserRepository) Create(u *model.User) error {
 	}
 
 	return r.store.db.QueryRow(
-		"INSERT INTO users (email, password_hash) VALUES ($1, $2) RETURNING id",
+		"INSERT INTO users (email, hash_password) VALUES ($1, $2) RETURNING id",
 		u.Email,
-		u.PasswordHash,
+		u.HashPassword,
 	).Scan(&u.ID)
 }
 
@@ -32,12 +32,12 @@ func (r *UserRepository) Create(u *model.User) error {
 func (r *UserRepository) FindByEmail(email string) (*model.User, error) {
 	u := &model.User{}
 	if err := r.store.db.QueryRow(
-		"SELECT id, email, password_hash FROM users WHERE email = $1",
+		"SELECT id, email, hash_password FROM users WHERE email = $1",
 		email,
 	).Scan(
 		&u.ID,
 		&u.Email,
-		&u.PasswordHash,
+		&u.HashPassword,
 	); err != nil {
 		if err == sql.ErrNoRows {
 			return nil, store.ErrRecordNotFound
